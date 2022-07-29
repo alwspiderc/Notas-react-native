@@ -4,11 +4,25 @@ import { Nota } from "./src/componentes/Nota"
 import { useEffect, useState } from "react"
 import { buscaNotas, criaTabela } from "./src/servicos/Notas"
 
+import * as Sharing from 'expo-sharing';
+import * as FileSystem from 'expo-file-system';
+
 export default function App() {
- 
+
   useEffect(() => {
     criaTabela()
     mostraNotas()
+
+    console.log("documentDirectory: ", FileSystem.documentDirectory)
+   Sharing.shareAsync(
+      
+    FileSystem.documentDirectory + 'SQLite/sqlite.db',
+      {dialogTitle: 'share or copy your DB via'}
+      
+    ).catch(error =>{
+      console.log(error);
+    })
+    
   }, [])
  
   const [notaSelecionada, setNotaSelecionada] = useState({})
